@@ -14,7 +14,7 @@ project.ext {
     JDK_VERSION = 1.7
     // These properties can be overridden by gradle.properties file or using -D
     SPRING_VERSION = '4.0.1.RELEASE'
-    SPRING_BOOT_VERSION = '1.0.0.RC3' // also update gradle plugin version
+    SPRING_BOOT_VERSION = '1.0.0.RC4' // also update gradle plugin version
     JACKSON_VERSION = '2.3.2'
     WICKET_VERSION = '6.14.0'
     TOMCAT_VERSION = '8.0.3'
@@ -31,7 +31,7 @@ buildscript {
     }
     dependencies {
         // need to repeat version number, gradle cannot use project properties within buildscript{}
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:1.0.0.RC3"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:1.0.0.RC4"
     }
 }
 
