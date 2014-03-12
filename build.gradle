@@ -1,0 +1,97 @@
+apply plugin: 'maven'
+apply plugin: 'war'
+// we need this to get all jars for populating via Groovy
+apply plugin: 'application'
+apply plugin: 'java'
+apply plugin: 'spring-boot'
+
+group = 'de.example'
+version = '0.1.BUILD-SNAPSHOT'
+
+description = 'Example.de'
+
+project.ext {
+    JDK_VERSION = 1.7
+    // These properties can be overridden by gradle.properties file or using -D
+    SPRING_VERSION = '4.0.1.RELEASE'
+    SPRING_BOOT_VERSION = '1.0.0.RC3' // also update gradle plugin version
+    JACKSON_VERSION = '2.3.2'
+    WICKET_VERSION = '6.14.0'
+    TOMCAT_VERSION = '8.0.3'
+    SLF4J_VERSION = '1.7.6'
+}
+
+sourceCompatibility = JDK_VERSION
+targetCompatibility = JDK_VERSION
+
+buildscript {
+    repositories {
+        jcenter() // bintray jcenter faster than mavenCentral
+        maven { url "http://repo.spring.io/libs-snapshot" }
+    }
+    dependencies {
+        // need to repeat version number, gradle cannot use project properties within buildscript{}
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:1.0.0.RC3"
+    }
+}
+
+repositories {
+    jcenter() // bintray jcenter faster than mavenCentral
+    // deprecated mavenRepo notation required for intellij
+    mavenRepo url: 'http://repo1.maven.org/maven2'
+    mavenRepo url: "http://repo.spring.io/libs-snapshot"
+}
+
+dependencies {
+    compile "javax.servlet:javax.servlet-api:3.1.0"
+
+    compile("javax.activation:activation:1.1.1") { force = true }
+    compile("org.slf4j:slf4j-api:$SLF4J_VERSION") { force = true }
+    compile("org.slf4j:slf4j-log4j12:$SLF4J_VERSION") { force = true }
+    compile("joda-time:joda-time:2.3") { force = true }
+
+    compile "org.springframework:spring-core:$SPRING_VERSION"
+    compile "org.springframework:spring-test:$SPRING_VERSION"
+    compile "org.springframework:spring-context:$SPRING_VERSION"
+    compile "org.springframework:spring-beans:$SPRING_VERSION"
+    compile "org.springframework:spring-aop:$SPRING_VERSION"
+    compile "org.springframework:spring-tx:$SPRING_VERSION"
+
+    // REST API
+    compile "org.springframework:spring-web:$SPRING_VERSION"
+    compile "org.springframework:spring-webmvc:$SPRING_VERSION"
+
+    compile("org.springframework.data:spring-data-commons:1.7.0.RELEASE") { force = true }
+    compile "org.springframework.data:spring-data-mongodb:1.4.0.RELEASE"
+
+    // used by spring validation
+    runtime("org.hibernate:hibernate-validator:4.3.1.Final") { force = true }
+
+    compile("org.mongodb:mongo-java-driver:2.11.4") { force = true }
+
+    compile("org.springframework.boot:spring-boot:$SPRING_BOOT_VERSION")
+    compile("org.springframework.boot:spring-boot-autoconfigure:$SPRING_BOOT_VERSION")
+    /** adds additional endpoints (/metrics, /beans) when in classpath */
+    runtime("org.springframework.boot:spring-boot-actuator:$SPRING_BOOT_VERSION")
+
+    /* additional json annotations (JsonIgnoreProperties)*/
+    compile("com.fasterxml.jackson.core:jackson-core:$JACKSON_VERSION") { force = true }
+    compile("com.fasterxml.jackson.core:jackson-annotations:$JACKSON_VERSION") { force = true }
+    compile("com.fasterxml.jackson.core:jackson-databind:$JACKSON_VERSION") { force = true }
+
+
+    compile("org.apache.wicket:wicket-core:$WICKET_VERSION") { force = true }
+
+    compile("org.json:json:20140107") { force = true }
+
+    runtime "org.apache.tomcat.embed:tomcat-embed-core:$TOMCAT_VERSION"
+    runtime "org.apache.tomcat.embed:tomcat-embed-logging-juli:$TOMCAT_VERSION"
+}
+
+
+war {
+    baseName = 'example-web'
+    version = '0.1.0'
+}
+
+mainClassName = "de.example.AppStarter"
