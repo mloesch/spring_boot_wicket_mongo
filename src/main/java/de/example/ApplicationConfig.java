@@ -44,7 +44,7 @@ public class ApplicationConfig implements ApplicationContextAware {
 
 
     @Bean
-    public DispatcherServlet getDispatcherServlet() {
+    public DispatcherServlet dispatcherServlet() {
         return new DispatcherServlet();
     }
 
