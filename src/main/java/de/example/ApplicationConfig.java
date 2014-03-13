@@ -44,11 +44,15 @@ public class ApplicationConfig implements ApplicationContextAware {
 
 
     @Bean
+    public DispatcherServlet getDispatcherServlet() {
+        return new DispatcherServlet();
+    }
+
+    @Bean
     public ServletRegistrationBean dispatcherRegistration(DispatcherServlet dispatcherServlet) {
         ServletRegistrationBean registration = new ServletRegistrationBean(dispatcherServlet);
         registration.addUrlMappings("/rest/*");
         return registration;
     }
-
 
 }
